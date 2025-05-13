@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Daily Logbook</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h1 { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; }
+        .section { margin: 15px 0; }
+        label { font-weight: bold; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .checkbox-group { display: flex; flex-direction: column; }
+        .checkbox-group label { font-weight: normal; }
+        .buttons { text-align: center; margin-top: 20px; }
+        button { padding: 10px 15px; border: none; background: #28a745; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #218838; }
+    </style>
+    <script>
+        function addMoreNotes() {
+            let notesSection = document.createElement("div");
+            notesSection.className = "section";
+            notesSection.innerHTML = '<label>Additional Notes:</label><textarea rows="3"></textarea>';
+            document.getElementById("logbook-form").appendChild(notesSection);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>STUDENT DAILY LOGBOOK</h1>
+        <div id="logbook-form">
+            <div class="section">
+                <label>Date:</label>
+                <input type="date">
+            </div>
+            <div class="section">
+                <label>About Today:</label>
+                <textarea rows="3"></textarea>
+            </div>
+            <div class="grid">
+                <div class="section">
+                    <label>Classes:</label>
+                    <textarea rows="3"></textarea>
+                </div>
+                <div class="section">
+                    <label>Study Time:</label>
+                    <textarea rows="3"></textarea>
+                </div>
+            </div>
+            <div class="section">
+                <label>To-Do List:</label>
+                <textarea rows="3"></textarea>
+            </div>
+            <div class="section">
+                <label>Challenges:</label>
+                <textarea rows="3" placeholder="Write any challenges or obstacles faced today"></textarea>
+            </div>
+            <div class="section checkbox-group">
+                <label>Habits:</label>
+                <label><input type="checkbox"> Exercise</label>
+                <label><input type="checkbox"> Sleeping</label>
+                <label><input type="checkbox"> Eating</label>
+                <label><input type="checkbox"> Playing</label>
+            </div>
+            <div class="grid">
+                <div class="section">
+                    <label>Reflections:</label>
+                    <textarea rows="3"></textarea>
+                </div>
+                <div class="section">
+                    <label>Grateful For:</label>
+                    <textarea rows="3"></textarea>
+                </div>
+            </div>
+            <div class="section">
+                <label>Goals:</label>
+                <textarea rows="3"></textarea>
+            </div>
+            <div class="section">
+                <label>Notes:</label>
+                <textarea rows="3"></textarea>
+            </div>
+        </div>
+        <div class="buttons">
+            <button onclick="addMoreNotes()">Add More</button>
+            <button>Save Entry</button>
+        </div>
+    </div>
+</body>
+</html>

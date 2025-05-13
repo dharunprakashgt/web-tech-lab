@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f4; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 300px; }
+        input, button { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+        .error { color: red; font-size: 12px; }
+        button { background: #28a745; color: white; cursor: pointer; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center;">Registration Form</h2>
+        <form onsubmit="return validateForm()">
+            <label>Name:</label><input type="text" id="name"><span id="nameError" class="error"></span>
+            <label>Email:</label><input type="text" id="email"><span id="emailError" class="error"></span>
+            <label>Password:</label><input type="password" id="password"><span id="passwordError" class="error"></span>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+    <script>
+        function validateForm() {
+            let isValid = true;
+            ["name", "email", "password"].forEach(id => {
+                let value = document.getElementById(id).value.trim();
+                let errorField = document.getElementById(id + "Error");
+                errorField.innerHTML = value ? "" : `${id.charAt(0).toUpperCase() + id.slice(1)} is required`;
+                if (id === "email" && value && !value.includes("@")) errorField.innerHTML = "Enter a valid email";
+                if (id === "password" && value.length < 6) errorField.innerHTML = "Password must be at least 6 characters";
+                if (errorField.innerHTML) isValid = false;
+            });
+            return isValid;
+        }
+    </script>
+</body>
+</html>
