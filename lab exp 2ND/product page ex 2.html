@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - RENTRONIX</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .product-img {
+            width: 150px;
+            height: auto;
+        }
+        .category-card {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">RENTRONIX</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="LAB EXP 2.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product page ex 2.html">Browse Items</a></li>
+                    <li class="nav-item"><a class="nav-link" href="aboutus.html ex-2.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.html ex-2.html">Rental Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <button class="btn btn-secondary" style="display: block; top: 10px; left: 10px;" onclick="history.back();">Back</button>
+    <!-- Products Section -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Available Rentals</h2>
+        <div class="row" id="product-list">
+            <!-- Categories or Products will be loaded here -->
+        </div>
+    </div>
+   
+
+
+
+    <script>
+        // Categories
+        let categories = [
+            { id: "laptops", name: "Laptops & Computers", image: "laptop.jpg" },
+            { id: "smartphones", name: "Smartphones & Tablets", image: "smartphone.jpg" },
+            { id: "gadgets", name: "Smart Gadgets & Accessories", image: "Smart Gadgets & Accessories.jpeg" },
+            { id: "cameras", name: "Cameras & Photography", image: "Cameras_Photography_Resized.jpeg" },
+            { id: "home_appliances", name: "Home Appliances & Smart Home", image: "Home Appliances & Smart Home.jpeg" },
+            { id: "gaming", name: "Gaming Consoles & Accessories", image: "Gaming Consoles & Accessories.jpeg" },
+        ];
+
+        // Products
+        let products = {
+            "laptops": [
+                { id: 1, name: "Gaming Laptop", price: 20, image: "gaming lap.jpg" },
+                { id: 2, name: "Business Laptop", price: 18, image: "bussiness lap.jpeg" },
+                { id: 3, name: "MacBook", price: 25, image: "MacBook.jpeg" }
+            ],
+            "smartphones": [
+                { id: 4, name: "Flagship Smartphone", price: 10, image: "Flagship Smartphone.jpeg" },
+                { id: 5, name: "Budget Smartphone", price: 5, image: "Budget Smartphone.webp" },
+                { id: 6, name: "iPad", price: 15, image: "iPad.jpeg" }
+            ],
+            "gadgets": [
+            { id: 16, name: "Smart Watch", price: 18, image: "Smart Watch.jpeg" },
+            { id: 17, name: "Wireless Earbuds", price: 12, image: "Wireless Earbuds.jpeg" },
+            { id: 18, name: "Fitness Tracker", price: 10, image: "Fitness Tracker.jpeg" }
+        ],
+            "cameras": [
+            { id: 7, name: "DSLR Camera", price: 30, image: "DSLR Camera.jpeg" },
+            { id: 8, name: "Mirrorless Camera", price: 28, image: "Mirrorless Camera.jpeg" },
+             { id: 9, name: "Action Camera", price: 15, image: "Action Camera.jpeg" }
+            ],
+            "home_appliances": [
+            { id: 13, name: "Smart TV", price: 40, image: "Smart TV.jpeg" },
+            { id: 14, name: "Air Purifier", price: 22, image: "Air Purifier.jpeg" },
+            { id: 15, name: "Robot Vacuum", price: 35, image: "Robot Vacuum.jpeg" }
+        ],
+            "gaming": [
+            { id: 10, name: "PlayStation 5", price: 50, image: "PlayStation 5.jpeg" },
+            { id: 11, name: "Xbox Series X", price: 48, image: "Xbox Series X.jpeg" },
+            { id: 12, name: "Gaming Headset", price: 12, image: "Gaming Headset.jpeg" }
+    ],
+            
+        };
+
+        // Load Categories
+        function loadCategories() {
+            let productList = document.getElementById("product-list");
+            productList.innerHTML = "";
+            categories.forEach(category => {
+                productList.innerHTML += `
+                    <div class="col-md-4 text-center">
+                        <div class="card p-3 category-card" onclick="loadProducts('${category.id}')">
+                            <img src="${category.image}" class="product-img mx-auto">
+                            <h5 class="mt-2">${category.name}</h5>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Load Products
+        function loadProducts(category) {
+            let productList = document.getElementById("product-list");
+            productList.innerHTML = `
+                <button class="btn btn-secondary mb-3" onclick="loadCategories()">Back</button>
+            `;
+            if (products[category]) {
+                products[category].forEach(product => {
+                    productList.innerHTML += `
+                        <div class="col-md-4 text-center">
+                            <div class="card p-3">
+                                <img src="${product.image}" class="product-img mx-auto">
+                                <h5 class="mt-2">${product.name}</h5>
+                                <p>$${product.price} / day</p>
+                                <button class="btn btn-primary" onclick="addToCart(${product.id}, '${product.name}', ${product.price}, '${product.image}')">Add to Cart</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                productList.innerHTML += `<p class="text-center">No products available in this category.</p>`;
+            }
+        }
+
+        // Add to Cart
+        function addToCart(id, name, price, image) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ id, name, price, image });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            alert("Item added to cart!");
+        }
+
+        loadCategories();
+    </script>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2025 RENTRONIX. All rights reserved.</p>
+    </footer>
+</body>
+</html>

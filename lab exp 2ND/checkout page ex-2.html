@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">RENTRONIX</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="LAB EXP 2.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product page ex 2.html">Browse Items</a></li>
+                    <li class="nav-item"><a class="nav-link" href="aboutus.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.html ex-2.html">Rental Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="text-center">Checkout</h2>
+        <table class="table table-bordered mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Rental Price (Per Day)</th>
+                    <th>Rental Duration (Days)</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody id="checkout-body">
+                <!-- Items will be dynamically added here -->
+            </tbody>
+        </table>
+        <h4 class="text-end">Total Rental Cost: <span id="checkout-total" class="text-danger">$0.00</span></h4>
+
+        <!-- Buttons for navigation -->
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-secondary mt-3" onclick="goBackToCart()">Back to Cart</button>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <h3 class="text-center">Customer Information</h3>
+        <form id="customer-form">
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Delivery Address</label>
+                <textarea class="form-control" id="address" rows="3" placeholder="Enter your delivery address" required></textarea>
+            </div>
+        </form>
+    </div>
+    
+    <div class="container mt-4">
+        <h3 class="text-center">Payment Details</h3>
+        <form id="payment-form">
+            <div class="mb-3">
+                <label for="card-number" class="form-label">Card Number</label>
+                <input type="text" class="form-control" id="card-number" placeholder="Enter your card number" required>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="expiry-date" class="form-label">Expiry Date</label>
+                    <input type="text" class="form-control" id="expiry-date" placeholder="MM/YY" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+   <!-- Place Order Button (Replaces "Complete Order") -->
+<div class="container text-center mt-4">
+    <button id="placeOrderBtn" class="btn btn-success btn-lg">Place Order</button>
+</div>
+
+<script>
+    document.getElementById("placeOrderBtn").addEventListener("click", function () {
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let phone = document.getElementById("phone").value;
+        let address = document.getElementById("address").value;
+        let cardNumber = document.getElementById("card-number").value;
+        let expiryDate = document.getElementById("expiry-date").value;
+        let cvv = document.getElementById("cvv").value;
+
+        if (!name || !email || !phone || !address || !cardNumber || !expiryDate || !cvv) {
+            alert("Please fill in all details to place the order.");
+            return;
+        }
+
+        alert(`Order Placed Successfully! 🎉\n\nCustomer: ${name}\nEmail: ${email}\nPhone: ${phone}\nDelivery Address: ${address}`);
+        localStorage.removeItem("cart");  // Clear cart after order
+        window.location.href = "LAB EXP 2.html";  // Redirect to homepage
+    });
+</script>
+
+    
+    <script>
+        function completeOrder() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let phone = document.getElementById("phone").value;
+            let address = document.getElementById("address").value;
+            let cardNumber = document.getElementById("card-number").value;
+            let expiryDate = document.getElementById("expiry-date").value;
+            let cvv = document.getElementById("cvv").value;
+    
+            if (!name || !email || !phone || !address || !cardNumber || !expiryDate || !cvv) {
+                alert("Please fill in all details to complete the order.");
+                return;
+            }
+    
+            alert(`Order Placed Successfully! 🎉\n\nCustomer: ${name}\nEmail: ${email}\nPhone: ${phone}\nDelivery Address: ${address}`);
+            localStorage.removeItem("cart");  // Clear cart after order
+            window.location.href = "LAB EXP 2.html";  // Redirect to homepage
+        }
+    </script>
+    
+    <script>
+        function loadCheckout() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let checkoutBody = document.getElementById("checkout-body");
+            let checkoutTotal = document.getElementById("checkout-total");
+            checkoutBody.innerHTML = "";
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                checkoutBody.innerHTML = `<tr><td colspan="5" class="text-center">Your cart is empty</td></tr>`;
+            } else {
+                cart.forEach(item => {
+                    let itemTotal = item.price * item.days;
+                    totalPrice += itemTotal;
+
+                    checkoutBody.innerHTML += `
+                        <tr>
+                            <td><img src="${item.image || 'placeholder.png'}" width="50"></td>
+                            <td>${item.name}</td>
+                            <td>$${item.price} / day</td>
+                            <td>${item.days}</td>
+                            <td>$${itemTotal.toFixed(2)}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            checkoutTotal.textContent = `$${totalPrice.toFixed(2)}`;
+        }
+
+        function placeOrder() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty. Add items before placing an order.");
+            } else {
+                alert("Your order has been placed successfully!");
+                localStorage.removeItem("cart"); // Clear cart after order
+                window.location.href = "LAB EXP 2.html"; // Redirect to home or order confirmation page
+            }
+        }
+
+        function goBackToCart() {
+            window.location.href = "cart.html ex-2.html"; // Redirect back to cart page
+        }
+
+        document.addEventListener("DOMContentLoaded", loadCheckout);
+    </script>
+</body>
+</html>

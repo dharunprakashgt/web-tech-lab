@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENTRONIX</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">RENTRONIX</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="LAB EXP 2.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product page ex 2.html">Browse Items</a></li>
+                    <li class="nav-item"><a class="nav-link" href="aboutus.html ex-2.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.html ex-2.html">Rental Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="text-center">Your Rental Cart</h2>
+        <table class="table table-bordered mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Rental Price (Per Day)</th>
+                    <th>Rental Duration (Days)</th>
+                    <th>Total Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cart-body">
+                <!-- Cart items will be loaded here dynamically -->
+            </tbody>
+        </table>
+        <h4 class="text-end">Total Rental Cost: <span id="cart-total" class="text-danger">$0.00</span></h4>
+    </div>
+    <div class="container mt-3 text-end">
+        <button class="btn btn-primary mt-2" onclick="checkout()">Proceed to Checkout</button>
+    </div>
+    
+    <script>
+        function checkout() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty. Add items before proceeding.");
+            } else {
+                window.location.href = "checkout.html"; // Redirect to checkout
+            }
+        }
+    </script>
+    
+    
+    <script>
+        function checkout() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty. Add some items before proceeding to checkout.");
+            } else {
+                window.location.href = "checkout.html";
+            }
+        }
+    </script>
+    
+    
+    <script>
+        function checkout() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty. Add some items before proceeding to checkout.");
+            } else {
+                alert("Redirecting to checkout...");
+                window.location.href = "checkout page ex-2.html"; // Change this to your actual checkout page
+            }
+        }
+    </script>
+    
+    <script>
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartBody = document.getElementById("cart-body");
+            let cartTotal = document.getElementById("cart-total");
+            cartBody.innerHTML = "";
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                cartBody.innerHTML = `<tr><td colspan="6" class="text-center">Your cart is empty</td></tr>`;
+            } else {
+                cart.forEach((item, index) => {
+                    if (!item.days || isNaN(item.days) || item.days <= 0) {
+                        item.days = 1;
+                    }
+
+                    let itemTotal = item.price * item.days;
+                    totalPrice += itemTotal;
+
+                    cartBody.innerHTML += `
+                        <tr>
+                            <td><img src="${item.image || 'placeholder.png'}" class="cart-img" width="50"></td>
+                            <td>${item.name}</td>
+                            <td>$${item.price} / day</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" onclick="updateDays(${index}, -1)">-</button>
+                                <span class="mx-2">${item.days}</span>
+                                <button class="btn btn-sm btn-success" onclick="updateDays(${index}, 1)">+</button>
+                            </td>
+                            <td>$${itemTotal.toFixed(2)}</td>
+                            <td><button class="btn btn-danger btn-sm" onclick="removeItem(${index})">Remove</button></td>
+                        </tr>
+                    `;
+                });
+            }
+
+            cartTotal.textContent = `$${totalPrice.toFixed(2)}`;
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+
+        function updateDays(index, change) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart[index]) {
+                cart[index].days = (cart[index].days || 1) + change;
+                if (cart[index].days < 1) cart[index].days = 1;
+                localStorage.setItem("cart", JSON.stringify(cart));
+                loadCart();
+            }
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart();
+        }
+
+        function addToCart(name, price, image) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            
+            let existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.days += 1;  // Increase quantity if already in cart
+            } else {
+                cart.push({ name, price, image, days: 1 });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart();
+        }
+
+        document.addEventListener("DOMContentLoaded", loadCart);
+    </script>
+</body>
+</html>
